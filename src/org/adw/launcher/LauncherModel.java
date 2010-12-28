@@ -692,6 +692,16 @@ public class LauncherModel {
         return label;
     }
 
+    ApplicationInfo getApplicationInfoById(Context context, long Id) {
+    	if (isDesktopLoaded()) {
+    		for(ItemInfo ii : mDesktopItems) {
+    			if (ii.id == Id && ii instanceof ApplicationInfo)
+    				return (ApplicationInfo)ii;
+    		}
+    	}
+    	return loadApplicationInfoById(context, Id);
+    }
+
     static ApplicationInfo loadApplicationInfoById(Context context, long Id) {
 
         final ContentResolver contentResolver = context.getContentResolver();
