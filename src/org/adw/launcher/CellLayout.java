@@ -1097,8 +1097,16 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
          * This method can be called only once! Calling #findVacantCellsFromOccupied will
          * restore the ability to call this method.
          *
-         * Finds the upper-left coordinate of the first rectangle in the grid that can
+         * Finds the upper-left coordinate of the nearest rectangle in the grid that can
          * hold a cell of the specified dimensions.
+         *
+         * ADW:
+         * Nearest is relative to "this" cell. Normally a 1x1 of the position
+         * the user long-pressed on the grid.
+         * Stock Launcher does this different because it's vacant cells are
+         * ordered by distance from the current cell, so first vacant cell that
+         * matches is nearest. If ADW reverts to the stock way of finding
+         * vacant cells this could be reverted as well
          *
          * @param cellXY The array that will contain the position of a vacant cell if such a cell
          *               can be found.
@@ -1118,30 +1126,29 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
             boolean found = false;
 
             if (this.spanX >= spanX && this.spanY >= spanY) {
-                cellXY[0] = cellX;
-                cellXY[1] = cellY;
+                cellXY[0] = this.cellX;
+                cellXY[1] = this.cellY;
                 found = true;
-            }
+            } else {
+                double bestDistance = Double.MAX_VALUE;
 
-            // Look for an exact match first
-            for (int i = 0; i < count; i++) {
-                VacantCell cell = list.get(i);
-                if (cell.spanX == spanX && cell.spanY == spanY) {
-                    cellXY[0] = cell.cellX;
-                    cellXY[1] = cell.cellY;
-                    found = true;
-                    break;
-                }
-            }
+                // Look across all vacant cells for best fit
+                for (int i = 0; i < count; i++) {
+                    VacantCell cell = list.get(i);
 
-            // Look for the first cell large enough
-            for (int i = 0; i < count; i++) {
-                VacantCell cell = list.get(i);
-                if (cell.spanX >= spanX && cell.spanY >= spanY) {
-                    cellXY[0] = cell.cellX;
-                    cellXY[1] = cell.cellY;
-                    found = true;
-                    break;
+                    // Reject if vacant cell isn't our exact size
+                    if (cell.spanX != spanX || cell.spanY != spanY)
+                        continue;
+
+                    double distance = Math.sqrt(Math.pow(this.cellX - cell.cellX, 2) +
+                        Math.pow(this.cellY - cell.cellY, 2));
+
+                    if (distance <= bestDistance) {
+                        bestDistance = distance;
+                        cellXY[0] = cell.cellX;
+                        cellXY[1] = cell.cellY;
+                        found = true;
+                    }
                 }
             }
 
