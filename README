@@ -1,0 +1,11 @@
+$git clone https://github.com/haobug/hammer_Launcher.git -b hammer
+$cd hammer_Launcher
+
+for ant:
+$android update project -p .
+$ant debug
+
+eclipse: (steps may be different depend on eclipse and ADT version)
+File -> New -> New Project
+Android Project from existing code
+...

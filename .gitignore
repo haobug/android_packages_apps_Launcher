@@ -2,3 +2,8 @@
 .project
 bin/
 gen/
+default.properties
+build.xml
+local.properties
+project.properties
+proguard-project.txt
