@@ -4186,7 +4186,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 		if (!data.hasExtra(CustomShirtcutActivity.EXTRA_APPLICATIONINFO))
 			return;
 		long appInfoId = data.getLongExtra(CustomShirtcutActivity.EXTRA_APPLICATIONINFO, 0);
-		ApplicationInfo info = LauncherModel.loadApplicationInfoById(this, appInfoId);
+		ApplicationInfo info = sModel.getApplicationInfoById(this, appInfoId);
 		if (info != null) {
 			Bitmap bitmap = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON);
 

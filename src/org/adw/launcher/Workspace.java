@@ -1157,7 +1157,6 @@ public class Workspace extends WidgetSpace implements DropTarget, DragSource, Dr
             boolean insertAtFirst) {
         // Drag from somewhere else
         ItemInfo info = (ItemInfo) dragInfo;
-
         View view;
 
         switch (info.itemType) {
@@ -1510,7 +1509,6 @@ public class Workspace extends WidgetSpace implements DropTarget, DragSource, Dr
                     if (tagInfo.id == info.id)
                     {
                     	tagInfo.assignFrom(info);
-
                     	View newview = mLauncher.createShortcut(R.layout.application, layout, tagInfo);
                     	layout.removeView(view);
                     	addInScreen(newview, info.screen, info.cellX, info.cellY, info.spanX,

@@ -135,7 +135,7 @@ public class ActionButton extends CounterImageView implements DropTarget, DragLi
         }
 	}
 	protected void UpdateLaunchInfo(ItemInfo info){
-    	mCurrentInfo=info;
+		mCurrentInfo=info;
 		//TODO:ADW extract icon and put it as the imageview src...
 		Drawable myIcon=null;
 		if (info != null) {
@@ -338,6 +338,7 @@ public class ActionButton extends CounterImageView implements DropTarget, DragLi
         mLauncher.closeAllApplications();
         mLauncher.showActions(mCurrentInfo, v);
         mDragger.startDrag(v, this, mCurrentInfo, DragController.DRAG_ACTION_COPY);
+        Launcher.getModel().removeDesktopItem(mCurrentInfo);
         UpdateLaunchInfo(null);
         return true;
 	}
